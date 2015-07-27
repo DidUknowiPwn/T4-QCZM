@@ -289,7 +289,7 @@ onMenuResponse()
 				//self closeMenu();
 				//self closeInGameMenu();
 				self [[level.leavesquad]]();
-				self [[level.autoassign]]();
+				//self [[level.autoassign]]();
 				break;
 
 			case "spectator":
@@ -305,8 +305,8 @@ onMenuResponse()
 			self closeMenu();
 			self closeInGameMenu();
 
-			self.selectedClass = true;
-			self [[level.class]](response);
+			//self.selectedClass = true;
+			//self [[level.class]](response);
 		}
 		else if ( !level.console )
 		{

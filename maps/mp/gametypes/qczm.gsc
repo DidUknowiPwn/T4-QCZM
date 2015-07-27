@@ -1,5 +1,6 @@
 #include maps\mp\_utility;
 #include maps\mp\gametypes\_hud_util;
+
 /*
 	QCZM
 	Objective: 	Humans vs Zombies, which one survives at the end of the time wins.
@@ -16,16 +17,18 @@ main()
 	maps\mp\gametypes\_callbacksetup::SetupCallbacks();
 	maps\mp\gametypes\_globallogic::SetupCallbacks();
 
-	maps\mp\gametypes\_globallogic::registerTimeLimitDvar( level.gameType, 10, 0, 1440 );
-	maps\mp\gametypes\_globallogic::registerScoreLimitDvar( level.gameType, 1000, 0, 5000 );
+	maps\mp\gametypes\_globallogic::registerTimeLimitDvar( level.gameType, 15, 0, 30 );
+	maps\mp\gametypes\_globallogic::registerScoreLimitDvar( level.gameType, 0, 0, 0 );
 	maps\mp\gametypes\_globallogic::registerRoundLimitDvar( level.gameType, 1, 0, 10 );
-	maps\mp\gametypes\_globallogic::registerNumLivesDvar( level.gameType, 0, 0, 10 );
+	maps\mp\gametypes\_globallogic::registerNumLivesDvar( level.gameType, 0, 0, 0 );
 	
 	level.teambased = true;
 
-	level.onStartGameType = ::onStartGameType;
-	level.onSpawnPlayer = ::onSpawnPlayer;
+	level.onStartGameType = onStartGameType;
+	level.onSpawnPlayer = qczm\main\_gamelogic::::onSpawnPlayer;
 	level.onSpawnPlayerUnified = ::onSpawnPlayerUnified;
+	level.onPlayerKilled = qczm\main\_gamelogic::onPlayerKilled;
+	level.onPrecacheGameType = qczm\main\_gamelogic::::onPrecacheGameType;
 
 	game["dialog"]["offense_obj"] = "ffa_boost";
 	game["dialog"]["defense_obj"] = "ffa_boost";
@@ -81,18 +84,9 @@ onStartGameType()
 	qczm();
 }
 
-
 onSpawnPlayerUnified()
 {
 	maps\mp\gametypes\_spawning::onSpawnPlayer_Unified();
-}
-
-onSpawnPlayer()
-{
-	spawnPoints = maps\mp\gametypes\_spawnlogic::getTeamSpawnPoints( self.pers["team"] );
-	spawnPoint = maps\mp\gametypes\_spawnlogic::getSpawnpoint_DM( spawnPoints );
-
-	self spawn( spawnPoint.origin, spawnPoint.angles );
 }
 
 qczm()
